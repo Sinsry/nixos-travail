@@ -117,6 +117,22 @@
   # Gvfs pour l'intégration SMB/NFS dans Dolphin/KDE
   services.gvfs.enable = true;
 
+  services.udisks2 = {
+    enable = true;
+    settings = {
+      "udisks2.conf" = {
+        udisks2 = {
+          modules = ["*"];
+          modules_load_preference = "ondemand";
+        };
+        defaults = {
+          encryption = "luks2";
+          fstab_mount_options = "defaults";
+        };
+      };
+    };
+  };
+
   # --- UTILISATEUR ET PACKAGES ---
   users.users.sinsry = {
     isNormalUser = true;
