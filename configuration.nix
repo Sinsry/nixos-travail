@@ -156,6 +156,7 @@
     nixfmt                    # Formateur Nix (optionnel)
     psmisc                    # Contient killall, fuser, etc.
     kdePackages.breeze-gtk  # Thème Breeze pour GTK
+    kdePackages.partitionmanager
     git
   ];
 
