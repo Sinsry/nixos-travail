@@ -16,13 +16,15 @@ fi
 echo "Sauvegarde de la config générée..."
 sudo cp -r /etc/nixos /etc/nixos.backup
 
-# 2. Supprime la config générée
+# 2. Vide le contenu de /etc/nixos
 echo "Suppression de la config générée..."
 sudo rm -rf /etc/nixos/*
+sudo rm -rf /etc/nixos/.git* 2>/dev/null || true
 
 # 3. Clone ta vraie config
 echo "Clonage de ta configuration depuis GitHub..."
-sudo git clone https://github.com/Sinsry/nixos-config /etc/nixos
+cd /etc/nixos
+sudo git clone https://github.com/Sinsry/nixos-config .
 
 # 4. Configure SSH
 echo ""
