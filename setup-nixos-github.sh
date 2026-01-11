@@ -13,11 +13,11 @@ fi
 
 # 1. Sauvegarde la config générée (au cas où)
 echo "Sauvegarde de la config générée..."
-sudo cp -r /mnt/etc/nixos /mnt/etc/nixos.backup
+sudo cp -r /etc/nixos /etc/nixos.backup
 
 # 2. Supprime la config générée
 echo "Suppression de la config générée..."
-sudo rm -rf /mnt/etc/nixos/*
+sudo rm -rf /etc/nixos/*
 
 # 3. Clone ta vraie config
 echo "Clonage de ta configuration depuis GitHub..."
@@ -49,13 +49,13 @@ sudo chmod 600 /root/.ssh/id_ed25519
 sudo chmod 644 /root/.ssh/id_ed25519.pub
 
 # 6. Change vers SSH
-cd /mnt/etc/nixos
+cd /etc/nixos
 sudo git remote set-url origin git@github.com:Sinsry/nixos-config.git
 
 # 7. Rebuild avec ta vraie config
 echo ""
 echo "Installation du système avec ta configuration..."
-sudo nixos-install --flake /mnt/etc/nixos#maousse --no-root-password
+sudo nixos-install --flake /etc/nixos#maousse --no-root-password
 
 echo ""
 echo "✅ Installation terminée !"
