@@ -1,5 +1,4 @@
 { _config, pkgs, ... }:
-
 {
   # Support des systèmes de fichiers
   boot.supportedFilesystems = [
@@ -16,16 +15,16 @@
     exfatprogs
   ];
 
-  # Monte tes disques INTERNES dans /mnt/
+  # udisks2 activé SEULEMENT pour les USB
+  services.udisks2.enable = true;
 
-  # Exemple : Disque interne supplémentaire
-  # fileSystems."/mnt/storage" = {
-  #   device = "/dev/disk/by-uuid/TON-UUID";
-  #   fsType = "ext4";  # ou "ntfs-3g", "exfat", etc.
-  #   options = [ "nofail" ];
-  # };
+  # Règle udev : udisks2 ignore TOUS les disques internes (non-USB)
+  services.udev.extraRules = ''
+    # Ignore tous les disques qui ne sont PAS des périphériques USB
+    SUBSYSTEMS!="usb", ENV{ID_BUS}!="usb", ENV{UDISKS_IGNORE}="1"
+  '';
 
-  # Configuration des montages
+  # Configuration des montages internes dans /mnt/
   fileSystems."/mnt/Ventoy" = {
     device = "/dev/disk/by-uuid/4E21-0000";
     fsType = "exfat";
