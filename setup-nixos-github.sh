@@ -16,7 +16,7 @@ echo ""
 echo "Détection et montage des partitions..."
 
 # Trouve la partition avec label "root" ou "nixos"
-ROOT_PART=$(lsblk -nlo NAME,LABEL | grep -i 'root\|nixos' | awk '{print "/dev/"$1}' | head -1)
+ROOT_PART=$(lsblk -nlo NAME,LABEL | grep -i 'root' | awk '{print "/dev/"$1}' | head -1)
 
 # Trouve la partition EFI (type vfat, ~512M-1G)
 EFI_PART=$(lsblk -nlo NAME,SIZE,FSTYPE | grep 'vfat' | awk '$2 ~ /^(512M|1G)$/ {print "/dev/"$1}' | head -1)
