@@ -236,6 +236,7 @@
   GTK_THEME = "Breeze-Dark";
   };
 
+  # Rebuild + push alias
   environment.shellAliases = {
     rebuild = ''
       cd /etc/nixos && \
