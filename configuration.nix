@@ -144,6 +144,10 @@
     ventoy-full
   ];
 
+   nixpkgs.config.permittedInsecurePackages = [
+    "ventoy-1.1.10"
+  ];
+
   programs.firefox = { # Navigateur interne + config fr
     enable = true;
     languagePacks = [ "fr" ];
