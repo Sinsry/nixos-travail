@@ -39,7 +39,7 @@
   };
 
   # Configuration des montages internes dans /mnt/
-  fileSystems."/mnt/DataWindozs" = {
+  fileSystems."/mnt/DataWindows" = {
     device = "/dev/disk/by-uuid/363A21FE3A21BBAD";
     fsType = "ntfs";
     options = [
