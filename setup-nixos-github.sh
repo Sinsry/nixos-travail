@@ -11,6 +11,54 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
+# === Détecte et remonte les partitions ===
+echo ""
+echo "Détection et montage des partitions..."
+
+# Trouve la partition avec label "root" ou "nixos"
+ROOT_PART=$(lsblk -nlo NAME,LABEL | grep -i 'root\|nixos' | awk '{print "/dev/"$1}' | head -1)
+
+# Trouve la partition EFI (type vfat, ~512M-1G)
+EFI_PART=$(lsblk -nlo NAME,SIZE,FSTYPE | grep 'vfat' | awk '$2 ~ /^(512M|1G)$/ {print "/dev/"$1}' | head -1)
+
+# Vérifie qu'on a bien trouvé les partitions
+if [ -z "$ROOT_PART" ]; then
+    echo "❌ Erreur : Impossible de détecter la partition racine !"
+    echo "Partitions disponibles :"
+    lsblk -o NAME,SIZE,LABEL,FSTYPE
+    exit 1
+fi
+
+if [ -z "$EFI_PART" ]; then
+    echo "❌ Erreur : Impossible de détecter la partition EFI !"
+    echo "Partitions disponibles :"
+    lsblk -o NAME,SIZE,LABEL,FSTYPE
+    exit 1
+fi
+
+echo "Partitions détectées :"
+echo "  Racine : $ROOT_PART"
+echo "  EFI    : $EFI_PART"
+echo ""
+
+# Démonte si déjà montés ailleurs
+sudo umount "$ROOT_PART" 2>/dev/null || true
+sudo umount "$EFI_PART" 2>/dev/null || true
+
+# Monte correctement
+echo "Montage de $ROOT_PART sur /mnt..."
+sudo mount "$ROOT_PART" /mnt
+
+echo "Montage de $EFI_PART sur /mnt/boot..."
+sudo mkdir -p /mnt/boot
+sudo mount "$EFI_PART" /mnt/boot
+
+# Vérifie que ça a marché
+if ! mountpoint -q /mnt || ! mountpoint -q /mnt/boot; then
+    echo "❌ Erreur : Échec du montage !"
+    exit 1
+fi
+
 # 1. Sauvegarde la config générée (au cas où)
 echo "Sauvegarde de la config générée..."
 sudo cp -r /mnt/etc/nixos /mnt/etc/nixos.backup
