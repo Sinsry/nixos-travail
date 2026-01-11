@@ -20,8 +20,9 @@
 
   # Règle udev : udisks2 ignore TOUS les disques internes (non-USB)
   services.udev.extraRules = ''
-    # Ignore tous les disques qui ne sont PAS des périphériques USB
-    SUBSYSTEMS!="usb", ENV{ID_BUS}!="usb", ENV{UDISKS_IGNORE}="1"
+    # Ignore tous les disques SAUF les USB
+    SUBSYSTEM=="block", KERNEL=="sd*", SUBSYSTEMS!="usb", ENV{UDISKS_IGNORE}="1"
+    SUBSYSTEM=="block", KERNEL=="nvme*", ENV{UDISKS_IGNORE}="1"
   '';
 
   # Configuration des montages internes dans /mnt/
@@ -34,7 +35,6 @@
       "umask=0000"
       "uid=1000"
       "gid=100"
-      "x-systemd.automount"
     ];
   };
 
