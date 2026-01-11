@@ -52,6 +52,15 @@ sudo chmod 644 /root/.ssh/id_ed25519.pub
 cd /mnt/etc/nixos
 sudo git remote set-url origin git@github.com:Sinsry/nixos-config.git
 
+# 7. Rebuild avec ta vraie config
+echo ""
+echo "Installation du système avec ta configuration..."
+sudo nixos-install --flake /mnt/etc/nixos#maousse --no-root-password
+
+echo ""
+echo "✅ Installation terminée !"
+echo "Redémarre maintenant pour utiliser ton système complet ! 🎉"
+
 echo ""
 echo "✅ Configuration terminée !"
 echo ""
