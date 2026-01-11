@@ -33,6 +33,9 @@
       "nofail"
       "rw"
       "umask=0000"
+      "uid=1000"
+      "gid=100"
+      "x-systemd.automount"
     ];
   };
 
