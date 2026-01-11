@@ -19,6 +19,8 @@
       "timeo=14"
       "retrans=2"
       "nolock"
+      "soft"
+      "intr"
     ];
   };
 
@@ -33,6 +35,8 @@
       "timeo=14"
       "retrans=2"
       "nolock"
+      "soft"
+      "intr"
     ];
   };
 
