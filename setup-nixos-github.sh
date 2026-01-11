@@ -22,7 +22,7 @@ sudo rm -rf /etc/nixos/*
 
 # 3. Clone ta vraie config
 echo "Clonage de ta configuration depuis GitHub..."
-sudo git clone https://github.com/Sinsry/nixos-config /mnt/etc/nixos
+sudo git clone https://github.com/Sinsry/nixos-config /etc/nixos
 
 # 4. Configure SSH
 echo ""
