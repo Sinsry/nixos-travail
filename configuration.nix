@@ -141,11 +141,6 @@
     psmisc                    # Contient killall, fuser, etc.
     kdePackages.breeze-gtk  # Thème Breeze pour GTK
     git
-    ventoy-full
-  ];
-
-   nixpkgs.config.permittedInsecurePackages = [
-    "ventoy-1.1.10"
   ];
 
   programs.firefox = { # Navigateur interne + config fr
