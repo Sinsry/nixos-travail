@@ -15,16 +15,6 @@
     exfatprogs
   ];
 
-  # udisks2 activé SEULEMENT pour les USB
-  services.udisks2.enable = true;
-
-  # Règle udev : udisks2 ignore TOUS les disques internes (non-USB)
-    environment.etc."udev/rules.d/80-udisks-ignore-internal.rules".text = ''
-    # Ignore tous les disques SAUF les USB
-    SUBSYSTEM=="block", KERNEL=="sd*", SUBSYSTEMS!="usb", ENV{UDISKS_IGNORE}="1"
-    SUBSYSTEM=="block", KERNEL=="nvme*", ENV{UDISKS_IGNORE}="1"
-  '';
-
   # Configuration des montages internes dans /mnt/
   fileSystems."/mnt/Ventoy" = {
     device = "/dev/disk/by-uuid/4E21-0000";
