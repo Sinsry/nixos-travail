@@ -141,6 +141,7 @@
     psmisc                    # Contient killall, fuser, etc.
     kdePackages.breeze-gtk  # Thème Breeze pour GTK
     git
+    ventoy-full
   ];
 
   programs.firefox = { # Navigateur interne + config fr
