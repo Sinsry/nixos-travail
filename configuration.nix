@@ -151,6 +151,20 @@
     };
   };
 
+  # Configuration Git
+  programs.git = {
+    enable = true;
+    config = {
+      init.defaultBranch = "main";
+      user = {
+        name = "Sinsry";
+        email = "Sinsry@users.noreply.github.com";
+      };
+      credential.helper = "cache --timeout=604800";  # Cache le token 1 semaine
+    };
+  };
+
+
   # --- MISES À JOUR ET NETTOYAGE ---
   # Automatisation des mises à jour système à 4h du matin.
   system.autoUpgrade = {
