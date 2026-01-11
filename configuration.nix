@@ -237,9 +237,15 @@
   };
 
   environment.shellAliases = {
-  rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#maousse";
-  nixpush = "cd /etc/nixos && sudo git add . && sudo git commit -m 'Update' && sudo git push";
-};
+    rebuild = ''
+      cd /etc/nixos && \
+      sudo git add . && \
+      sudo git commit -m "Auto commit $(date +%Y-%m-%d_%H:%M)" && \
+      sudo git push && \
+      sudo nixos-rebuild switch --flake /etc/nixos#maousse
+    '';
+    nixpush = "cd /etc/nixos && sudo git add . && sudo git commit -m 'Update' && sudo git push";
+  };
 
   # Version de NixOS d'origine (ne pas changer sans lire la doc).
   system.stateVersion = "25.11";
