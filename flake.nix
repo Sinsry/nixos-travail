@@ -31,6 +31,13 @@
             programs.plasma = {
               enable = true;
               input.keyboard.numlockOnStartup = "on";
+              workspace = {
+                lookAndFeel = "org.kde.breezedark.desktop";
+                colorScheme = "BreezeDark";
+                theme = "breeze-dark";
+                iconTheme = "breeze-dark";
+               cursorTheme = "breeze_cursors";
+              };
               };
             };
           }
