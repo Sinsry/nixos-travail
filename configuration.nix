@@ -20,7 +20,7 @@
     
     # Paramètres magiques pour un démarrage propre, silencieux et en 165Hz.
     kernelParams = [
-      "video=2160x1440@165"
+      "video=1920x1080@60"
       "quiet"
       "splash"
       "boot.shell_on_fail"
@@ -46,7 +46,7 @@
 
   # --- RÉSEAU ET SYSTÈME ---
   networking = {
-    hostName = "maousse"; # Nom de la machine.
+    hostName = "Nixos"; # Nom de la machine.
     networkmanager.enable = true; # Active la gestion simplifiée du réseau.
   };
   
@@ -70,26 +70,6 @@
   # Autorise les logiciels propriétaires (Steam, drivers, etc.).
   nixpkgs.config.allowUnfree = true;
 
-  # Active Steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;  # Ouvre les ports pour Remote Play
-    dedicatedServer.openFirewall = true;  # Pour les serveurs dédiés
-    localNetworkGameTransfers.openFirewall = true;  # Transferts LAN
-
-    # Active Proton-GE
-    extraCompatPackages = with pkgs; [
-      proton-ge-bin
-  ];
-  # Force Steam en français
-  package = pkgs.steam.override {
-    extraEnv = {
-      STEAM_FORCE_DESKTOPUI_SCALING = "1";
-    };
-    extraArgs = "-language french";
-  };
-  };
-
   # --- INTERFACE (KDE PLASMA 6) ---
   services.xserver = {
     enable = true;
@@ -109,7 +89,6 @@
     enable = true;
     enable32Bit = true; # Nécessaire pour les jeux 32 bits (Steam).
     extraPackages = with pkgs; [ 
-      rocmPackages.clr.icd
       vulkan-loader
       vulkan-validation-layers
     ];
@@ -166,7 +145,6 @@
     kdePackages.partitionmanager
     git
     discord
-    heroic
     mangohud
     goverlay
     vulkan-tools
@@ -268,7 +246,7 @@
   # Rebuild + push alias
   environment.shellAliases = {
     rebuild = ''
-      sudo nixos-rebuild switch --flake /etc/nixos#maousse
+      sudo nixos-rebuild switch --flake /etc/nixos#travail
     '';
     nixpush = "cd /etc/nixos && sudo git add . && sudo git commit -m 'Update' && sudo git push";
   };

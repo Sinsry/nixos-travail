@@ -27,16 +27,16 @@ sudo rm -rf /etc/nixos/.git* 2>/dev/null || true
 
 # 4. Clone ta vraie config
 echo "Clonage de ta configuration depuis GitHub..."
-sudo git clone https://github.com/Sinsry/nixos-maousse /etc/nixos
+sudo git clone https://github.com/Sinsry/nixos-travail /etc/nixos
 
 # 5. Restaure le hardware-configuration.nix de cette machine
 echo "Restauration du hardware-configuration.nix de cette machine..."
 sudo cp /tmp/hardware-configuration.nix.backup /etc/nixos/hardware-configuration.nix
 
 # 5.5 Renomme la partition système
-echo "Renommage de la partition système..."
-sudo parted /dev/nvme0n1 name 2 NixOS
-sudo btrfs filesystem label / NixOS
+#echo "Renommage de la partition système..."
+#sudo parted /dev/nvme0n1 name 2 NixOS
+#sudo btrfs filesystem label / NixOS
 
 # 6. Configure SSH
 echo ""
@@ -67,12 +67,12 @@ sudo chmod 644 /root/.ssh/id_ed25519.pub
 
 # 8. Change vers SSH
 cd /etc/nixos
-sudo git remote set-url origin git@github.com:Sinsry/nixos-maousse.git
+sudo git remote set-url origin git@github.com:Sinsry/nixos-travail.git
 
 # 9. Rebuild avec ta vraie config
 echo ""
 echo "Rebuild du système avec ta configuration..."
-sudo nixos-rebuild switch --flake /etc/nixos#maousse
+sudo nixos-rebuild switch --flake /etc/nixos#travail
 
 echo ""
 echo "✅ Configuration terminée !"
