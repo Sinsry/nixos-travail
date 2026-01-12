@@ -28,8 +28,11 @@
 
             home.stateVersion = "25.11";
 
-            programs.plasma.enable = true;
+            programs.plasma = {
+              enable = true;
+              input.keyboard.numlockOnStartup = "on";
               };
+            };
           }
         ];
      };
