@@ -7,9 +7,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    plasma-manager = {
+      url = "github:pjones/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
   };
-
-  outputs = { self, nixpkgs, home-manager }: {
+};
+  outputs = { self, nixpkgs, home-manager, plasma-manager }: {
     nixosConfigurations.maousse = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -18,9 +22,16 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.sinsry = import ./home.nix;
-        }
-      ];
-    };
-  };
+          home-manager.users.sinsry = {
+
+            imports = [ plasma-manager.homeManagerModules.plasma-manager ];
+            programs.plasma = {
+              enable = true;
+              workspace.numlock = "on";
+              };
+            };
+          }
+        ];
+     };
+   };
 }
