@@ -79,6 +79,7 @@
   # --- INTERFACE (KDE PLASMA 6) ---
   services.xserver = {
     enable = true;
+    xkb.layout = "fr";
     videoDrivers = [ "amdgpu" ];
   };
   
