@@ -81,6 +81,13 @@
     extraCompatPackages = with pkgs; [
       proton-ge-bin
   ];
+  # Force Steam en français
+  package = pkgs.steam.override {
+    extraEnv = {
+      STEAM_FORCE_DESKTOPUI_SCALING = "1";
+    };
+    extraArgs = "-language french";
+  };
   };
 
   # --- INTERFACE (KDE PLASMA 6) ---
