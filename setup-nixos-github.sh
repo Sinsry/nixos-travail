@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i bash -p git
+#! nix-shell -i bash -p git parted btrfs-progs
 
 echo "=== Configuration post-installation NixOS ==="
 echo ""
@@ -33,6 +33,11 @@ sudo git clone https://github.com/Sinsry/nixos-config .
 # 5. Restaure le hardware-configuration.nix de cette machine
 echo "Restauration du hardware-configuration.nix de cette machine..."
 sudo cp /tmp/hardware-configuration.nix.backup /etc/nixos/hardware-configuration.nix
+
+# 5.5 Renomme la partition système
+echo "Renommage de la partition système..."
+sudo parted /dev/nvme0n1 name 2 NixOS
+sudo btrfs filesystem label / NixOS
 
 # 6. Configure SSH
 echo ""

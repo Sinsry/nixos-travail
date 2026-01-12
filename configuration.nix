@@ -109,7 +109,9 @@
     enable = true;
     enable32Bit = true; # Nécessaire pour les jeux 32 bits (Steam).
     extraPackages = with pkgs; [ 
-      rocmPackages.clr.icd 
+      rocmPackages.clr.icd
+      vulkan-loader
+      vulkan-validation-layers
     ];
   };
 
@@ -165,6 +167,9 @@
     git
     discord
     heroic
+    mangohud
+    goverlay
+    vulkan-tools
   ];
 
   programs.firefox = { # Navigateur interne + config fr
