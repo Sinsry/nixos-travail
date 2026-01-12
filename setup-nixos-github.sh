@@ -41,7 +41,9 @@ ssh-keygen -t ed25519 -C "Sinsry@users.noreply.github.com" -f ~/.ssh/id_ed25519 
 
 echo ""
 echo "=== 🔑 Clé publique SSH (à copier) ==="
+echo ""
 cat ~/.ssh/id_ed25519.pub
+echo ""
 echo "=================================="
 echo ""
 echo "1. Va sur https://github.com/settings/ssh/new"
