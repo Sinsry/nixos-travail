@@ -25,11 +25,11 @@
           home-manager.users.sinsry = {
 
             imports = [ plasma-manager.homeModules.plasma-manager ];
-            programs.plasma = {
-              enable = true;
-              workspace.numlock = "on";
+
+            home.stateVersion = "25.11";
+
+            programs.plasma.enable = true;
               };
-            };
           }
         ];
      };
