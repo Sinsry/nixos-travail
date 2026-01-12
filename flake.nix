@@ -36,7 +36,7 @@
                 colorScheme = "BreezeDark";
                 theme = "breeze-dark";
                 iconTheme = "breeze-dark";
-                cursor.Theme = "breeze_cursors";
+                cursor.theme = "breeze_cursors";
               };
               };
             };
