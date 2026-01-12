@@ -48,7 +48,7 @@
 
   # --- RÉSEAU ET SYSTÈME ---
   networking = {
-    hostName = "Nixos"; # Nom de la machine.
+    hostName = "nixos"; # Nom de la machine.
     networkmanager.enable = true; # Active la gestion simplifiée du réseau.
   };
   
