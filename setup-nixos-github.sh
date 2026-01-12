@@ -12,21 +12,29 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
-# 1. Sauvegarde la config générée (au cas où)
+# 1. Sauvegarde le hardware-configuration.nix généré par l'installeur
+echo "Sauvegarde du hardware-configuration.nix..."
+sudo cp /etc/nixos/hardware-configuration.nix /tmp/hardware-configuration.nix.backup
+
+# 2. Sauvegarde complète (au cas où)
 echo "Sauvegarde de la config générée..."
 sudo cp -r /etc/nixos /etc/nixos.backup
 
-# 2. Vide le contenu de /etc/nixos
+# 3. Vide le contenu de /etc/nixos
 echo "Suppression de la config générée..."
 sudo rm -rf /etc/nixos/*
 sudo rm -rf /etc/nixos/.git* 2>/dev/null || true
 
-# 3. Clone ta vraie config
+# 4. Clone ta vraie config
 echo "Clonage de ta configuration depuis GitHub..."
 cd /etc/nixos
 sudo git clone https://github.com/Sinsry/nixos-config .
 
-# 4. Configure SSH
+# 5. Restaure le hardware-configuration.nix de cette machine
+echo "Restauration du hardware-configuration.nix de cette machine..."
+sudo cp /tmp/hardware-configuration.nix.backup /etc/nixos/hardware-configuration.nix
+
+# 6. Configure SSH
 echo ""
 echo "Configuration SSH..."
 ssh-keygen -t ed25519 -C "Sinsry@users.noreply.github.com" -f ~/.ssh/id_ed25519 -N ""
@@ -43,7 +51,7 @@ echo "4. Clique sur 'Add SSH key'"
 echo ""
 read -p "Appuie sur Entrée quand c'est fait..."
 
-# 5. Copie SSH pour root
+# 7. Copie SSH pour root
 echo ""
 echo "Configuration SSH pour root..."
 sudo mkdir -p /root/.ssh
@@ -51,24 +59,16 @@ sudo cp ~/.ssh/id_ed25519* /root/.ssh/
 sudo chmod 600 /root/.ssh/id_ed25519
 sudo chmod 644 /root/.ssh/id_ed25519.pub
 
-# 6. Change vers SSH
+# 8. Change vers SSH
 cd /etc/nixos
 sudo git remote set-url origin git@github.com:Sinsry/nixos-config.git
 
-# 7. Rebuild avec ta vraie config
+# 9. Rebuild avec ta vraie config
 echo ""
-echo "Installation du système avec ta configuration..."
-sudo sudo nixos-rebuild switch --flake /etc/nixos#maousse
-
-echo ""
-echo "✅ Installation terminée !"
-echo "Redémarre maintenant pour utiliser ton système complet ! 🎉"
+echo "Rebuild du système avec ta configuration..."
+sudo nixos-rebuild switch --flake /etc/nixos#maousse
 
 echo ""
 echo "✅ Configuration terminée !"
 echo ""
-echo "Tu peux maintenant :"
-echo "1. Fermer ce terminal"
-echo "2. Cliquer sur 'Redémarrer' dans l'installeur"
-echo ""
-echo "Au prochain démarrage, tu auras ton système complet avec toute ta config ! 🎉"
+echo "Tu peux maintenant redémarrer pour profiter de ton système complet ! 🎉"
