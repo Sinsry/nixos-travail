@@ -27,8 +27,7 @@ sudo rm -rf /etc/nixos/.git* 2>/dev/null || true
 
 # 4. Clone ta vraie config
 echo "Clonage de ta configuration depuis GitHub..."
-cd /etc/nixos
-sudo git clone https://github.com/Sinsry/nixos-config .
+sudo git clone https://github.com/Sinsry/nixos-maousse /etc/nixos
 
 # 5. Restaure le hardware-configuration.nix de cette machine
 echo "Restauration du hardware-configuration.nix de cette machine..."
@@ -68,7 +67,7 @@ sudo chmod 644 /root/.ssh/id_ed25519.pub
 
 # 8. Change vers SSH
 cd /etc/nixos
-sudo git remote set-url origin git@github.com:Sinsry/nixos-config.git
+sudo git remote set-url origin git@github.com:Sinsry/nixos-maousse.git
 
 # 9. Rebuild avec ta vraie config
 echo ""
