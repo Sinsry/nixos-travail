@@ -44,6 +44,8 @@
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
+  networking.firewall.enable = false;
+
   # --- RÉSEAU ET SYSTÈME ---
   networking = {
     hostName = "Nixos"; # Nom de la machine.
@@ -70,18 +72,32 @@
   # Autorise les logiciels propriétaires (Steam, drivers, etc.).
   nixpkgs.config.allowUnfree = true;
 
+  # LACT pour contrôle GPU AMD
+  services.lact.enable = true;
+  hardware.amdgpu.overdrive.enable = true;
+
   # --- INTERFACE (KDE PLASMA 6) ---
   services.xserver = {
     enable = true;
     videoDrivers = [ "amdgpu" ];
   };
   
+  services.xserver.excludePackages = with pkgs; [
+    xterm
+  ];
+
   services.desktopManager.plasma6.enable = true;
   
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
     theme = "breeze";
+  };
+
+  # Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;  # Active automatiquement au démarrage
   };
 
   # Accélération matérielle et support ROCm pour OpenCL.
@@ -148,6 +164,8 @@
     mangohud
     goverlay
     vulkan-tools
+    vlc
+    mpv
   ];
 
   programs.firefox = { # Navigateur interne + config fr
