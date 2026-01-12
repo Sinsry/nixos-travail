@@ -241,10 +241,6 @@
   # Rebuild + push alias
   environment.shellAliases = {
     rebuild = ''
-      cd /etc/nixos && \
-      sudo git add . && \
-      sudo git commit -m "Auto commit $(date +%Y-%m-%d_%H:%M)" && \
-      sudo git push && \
       sudo nixos-rebuild switch --flake /etc/nixos#maousse
     '';
     nixpush = "cd /etc/nixos && sudo git add . && sudo git commit -m 'Update' && sudo git push";
