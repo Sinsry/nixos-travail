@@ -70,6 +70,19 @@
   # Autorise les logiciels propriétaires (Steam, drivers, etc.).
   nixpkgs.config.allowUnfree = true;
 
+  # Active Steam
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;  # Ouvre les ports pour Remote Play
+    dedicatedServer.openFirewall = true;  # Pour les serveurs dédiés
+    localNetworkGameTransfers.openFirewall = true;  # Transferts LAN
+
+    # Active Proton-GE
+    extraCompatPackages = with pkgs; [
+      proton-ge-bin
+  ];
+  };
+
   # --- INTERFACE (KDE PLASMA 6) ---
   services.xserver = {
     enable = true;
@@ -143,6 +156,8 @@
     kdePackages.breeze-gtk  # Thème Breeze pour GTK
     kdePackages.partitionmanager
     git
+    discord
+    heroic
   ];
 
   programs.firefox = { # Navigateur interne + config fr
