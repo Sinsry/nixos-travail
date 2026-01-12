@@ -24,7 +24,7 @@
           home-manager.useUserPackages = true;
           home-manager.users.sinsry = {
 
-            imports = [ plasma-manager.homeManagerModules.plasma-manager ];
+            imports = [ plasma-manager.homeModules.plasma-manager ];
             programs.plasma = {
               enable = true;
               workspace.numlock = "on";
