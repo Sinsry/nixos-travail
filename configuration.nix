@@ -82,7 +82,9 @@
     xkb.layout = "fr";
     videoDrivers = [ "amdgpu" ];
   };
-  
+
+  console.keyMap = "fr";
+
   services.xserver.excludePackages = with pkgs; [
     xterm
   ];
