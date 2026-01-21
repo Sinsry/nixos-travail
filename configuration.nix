@@ -143,7 +143,6 @@
     description = "Sinsry";
     extraGroups = [ "networkmanager" "wheel" ]; # Wheel permet d'utiliser sudo.
 
-    ];
   };
 
   services.desktopManager.plasma6.enable = true;
