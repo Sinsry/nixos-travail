@@ -4,21 +4,16 @@
 
   imports = [
     # Inclut les résultats du scan matériel (drivers, partitions).
-    ./hardware-configuration.nix 
+    ./hardware-configuration.nix
     ./network-mounts.nix
     ./disks-mounts.nix
   ];
 
   # --- BOOT ET GRAPHIQUES ---
   boot = {
-    # Charge le module AMDGPU tôt pour éviter les flashs au démarrage.
     initrd.kernelModules = [ "amdgpu" ];
-    
-    # Supprime les messages de texte du noyau au démarrage.
     consoleLogLevel = 0;
     initrd.verbose = false;
-    
-    # Paramètres magiques pour un démarrage propre, silencieux et en 165Hz.
     kernelParams = [
       "video=1920x1080@60"
       "quiet"
@@ -31,29 +26,37 @@
       "udev.log_priority=3"
     ];
 
-    # Configuration du bootloader Systemd-boot.
+    kernelModules = [
+      "ntsync"
+    ];
+
+    supportedFilesystems = [
+      "ntfs"
+      "exfat"
+      "vfat"
+      "ext4"
+      "btrfs"
+    ];
+
     loader = {
       systemd-boot = {
         enable = true;
         consoleMode = "max";
       };
+
       efi.canTouchEfiVariables = true;
     };
 
-    # Utilise le dernier Kernel stable pour un support optimal de la RX 9070.
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
   networking.firewall.enable = false;
-
-  # --- RÉSEAU ET SYSTÈME ---
   networking = {
-    hostName = "nixos"; # Nom de la machine.
-    networkmanager.enable = true; # Active la gestion simplifiée du réseau.
+    hostName = "nixos";
+    networkmanager.enable = true;
   };
-  
-  time.timeZone = "Europe/Paris"; # Fuseau horaire.
-  
+
+  time.timeZone = "Europe/Paris";
   i18n = {
     defaultLocale = "fr_FR.UTF-8";
     extraLocaleSettings = {
@@ -68,15 +71,12 @@
       LC_TIME = "fr_FR.UTF-8";
     };
   };
-  
-  # Autorise les logiciels propriétaires (Steam, drivers, etc.).
+
   nixpkgs.config.allowUnfree = true;
 
-  # LACT pour contrôle GPU AMD
-  services.lact.enable = true;
+ services.lact.enable = true;
   hardware.amdgpu.overdrive.enable = true;
 
-  # --- INTERFACE (KDE PLASMA 6) ---
   services.xserver = {
     enable = true;
     xkb.layout = "fr";
@@ -89,33 +89,32 @@
     xterm
   ];
 
-  services.desktopManager.plasma6.enable = true;
-  
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
     theme = "breeze";
+
+  extraPackages = with pkgs; [
+    papirus-icon-theme
+  ];
+
   };
 
-  # Bluetooth
-  hardware.bluetooth = {
+ hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;  # Active automatiquement au démarrage
   };
 
-  # Accélération matérielle et support ROCm pour OpenCL.
   hardware.graphics = {
     enable = true;
     enable32Bit = true; # Nécessaire pour les jeux 32 bits (Steam).
-    extraPackages = with pkgs; [ 
+    extraPackages = with pkgs; [
       vulkan-loader
       vulkan-validation-layers
     ];
   };
 
-  # --- DÉCOUVERTE RÉSEAU (SMB/NFS) ---
-  # Activer Samba et Avahi pour la découverte réseau
-  services.samba = {
+ services.samba = {
     enable = true;
     openFirewall = true;
   };
@@ -143,43 +142,77 @@
     isNormalUser = true;
     description = "Sinsry";
     extraGroups = [ "networkmanager" "wheel" ]; # Wheel permet d'utiliser sudo.
-    packages = with pkgs; [ 
-      kdePackages.kate 
+
     ];
   };
 
-  # Utilitaires système installés en natif.
+  services.desktopManager.plasma6.enable = true;
+
   environment.systemPackages = with pkgs; [
-    nvd                       # Pour comparer les versions de NixOS
-    libnotify                 # Pour envoyer des bulles de notification
-    google-chrome             # Navigateur interne
-    meld                      # Pour comparer des fichiers
-    cifs-utils                # Pour SMB/CIFS
-    samba                     # Client Samba
-    nfs-utils                 # Pour NFS
-    nil                       # Nix Language Server
-    nixfmt                    # Formateur Nix (optionnel)
-    psmisc                    # Contient killall, fuser, etc.
-    kdePackages.breeze-gtk  # Thème Breeze pour GTK
-    kdePackages.partitionmanager
+    ntfs3g
+    exfatprogs
+    nvd
+    rar
+    libnotify
+    google-chrome
+    meld
+    cifs-utils
+    samba
+    nfs-utils
+    nil
+    nixfmt
+    psmisc
     git
     discord
+    heroic
     mangohud
     goverlay
     vulkan-tools
     vlc
     mpv
-  ];
+    ffmpeg
+    gamescope
+    papirus-icon-theme
+    wowup-cf
+    fastfetch
+    rsync
+    vorta
+    protonvpn-gui
+    kdePackages.kate
+    kdePackages.breeze-gtk
+    kdePackages.partitionmanager
+    kdePackages.filelight
+    kdePackages.plasma-browser-integration
 
+    (pkgs.writeTextDir "share/sddm/themes/breeze/theme.conf.user" ''
+      [General]
+      background=/etc/nixos/asset/maousse/wallpaper-sddm.png
+     '')
+    (pkgs.writeTextDir "etc/xdg/kdeglobals" ''
+      [Icons]
+      Theme=Papirus-Dark
+    '')
+  ];
   programs.firefox = { # Navigateur interne + config fr
     enable = true;
     languagePacks = [ "fr" ];
     preferences = {
       "intl.locale.requested" = "fr";
     };
-  };
 
-  # Configuration Git
+    nativeMessagingHosts.packages = [ pkgs.kdePackages.plasma-browser-integration ]
+
+ };
+
+ programs.chromium = {
+  enable = true;
+  extraOpts = {
+    "NativeMessagingHosts" = {
+      "org.kde.plasma.browser_integration" = "${pkgs.kdePackages.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";
+    };
+  };
+};
+
   programs.git = {
     enable = true;
     config = {
@@ -207,7 +240,7 @@
     # On le lance après la mise à jour automatique
     after = [ "nixos-upgrade.service" ];
     wantedBy = [ "nixos-upgrade.service" ];
-    
+
     script = ''
       # On compare l'ID de la version actuelle avec celle du lien 'system'
       # Si c'est différent, alors on notifie.
@@ -221,7 +254,7 @@
           --urgency=normal
       fi
     '';
-    
+
     serviceConfig = {
       Type = "oneshot";
       User = "sinsry";
@@ -253,10 +286,10 @@
     platformTheme = "kde";
     style = "breeze";
   };
-  
+
   # Thème de curseur uniforme.
   environment.variables.XCURSOR_THEME = "breeze_cursors";
-  
+
   # Permet aux applications de sauvegarder leurs réglages.
   programs.dconf.enable = true;
 
@@ -275,6 +308,3 @@
   # Version de NixOS d'origine (ne pas changer sans lire la doc).
   system.stateVersion = "25.11";
 }
-
-
-
