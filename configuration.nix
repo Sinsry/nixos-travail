@@ -163,16 +163,10 @@
     psmisc
     git
     discord
-    heroic
-    mangohud
-    goverlay
-    vulkan-tools
     vlc
     mpv
     ffmpeg
-    gamescope
     papirus-icon-theme
-    wowup-cf
     fastfetch
     rsync
     vorta
@@ -199,7 +193,7 @@
       "intl.locale.requested" = "fr";
     };
 
-    nativeMessagingHosts.packages = [ pkgs.kdePackages.plasma-browser-integration ]
+    nativeMessagingHosts.packages = [ pkgs.kdePackages.plasma-browser-integration ];
 
  };
 
