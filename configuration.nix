@@ -50,7 +50,7 @@
   };
 
   networking = {
-    hostName = "nixos";
+    hostName = "travail";
     networkmanager.enable = true;
     firewall.enable = false;
   };
