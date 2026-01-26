@@ -39,7 +39,4 @@
       "intr"
     ];
   };
-
-  # Services NFS nécessaires
-  services.rpcbind.enable = true;
 }
