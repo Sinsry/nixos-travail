@@ -177,7 +177,7 @@
 
     (pkgs.writeTextDir "share/sddm/themes/breeze/theme.conf.user" ''
       [General]
-      background=/etc/nixos/asset/maousse/wallpaper-sddm.png
+      background=/etc/nixos/asset/wallpaper-sddm.png
      '')
     (pkgs.writeTextDir "etc/xdg/kdeglobals" ''
       [Icons]
@@ -289,7 +289,7 @@
 
   };
 
-  environment.etc."libinput/local-overrides.quirks".source = ./asset/maousse/local-overrides.quirks;
+  environment.etc."libinput/local-overrides.quirks".source = ./asset/local-overrides.quirks;
 
   environment.etc."inputrc".text = ''
     set completion-ignore-case on
