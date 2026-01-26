@@ -72,7 +72,7 @@ sudo git remote set-url origin git@github.com:Sinsry/nixos-travail.git
 # 9. Rebuild avec ta vraie config
 echo ""
 echo "Rebuild du système avec ta configuration..."
-sudo nixos-rebuild switch --flake /etc/nixos#travail
+sudo nixos-rebuild switch --flake path:/etc/nixos#travail
 
 echo ""
 echo "✅ Configuration terminée !"
