@@ -285,7 +285,7 @@
     nixrebuild = ''cd /etc/nixos && sudo git add . && (sudo git commit -m 'Update' || true) && sudo git push && cd ~/ && sudo nixos-rebuild switch --flake path:/etc/nixos#maousse'';
     nixpush = "cd /etc/nixos && sudo git add . && (sudo git commit -m 'Update' || true ) && sudo git push && cd ~/";
     nixlistenv = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
-    nixgarbage = "sudo nix-collect-garbage -d";
+    nixgarbage = "sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system && sudo nix-collect-garbage -d && sudo nixos-rebuild boot";
 
   };
 
