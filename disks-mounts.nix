@@ -1,4 +1,4 @@
-{ _config, _pkgs, ... }:
+{ ... }:
 {
   fileSystems."/mnt/Windows" = {
     device = "/dev/disk/by-uuid/90D0538CD0537804";
